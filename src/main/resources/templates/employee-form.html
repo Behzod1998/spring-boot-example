@@ -37,23 +37,10 @@
 <body>
 
 
-<!--<form action="#"-->
-<!--      th:action="@{/employees-update/{id}(id=${employee.id})}"-->
-<!--      th:object="${employee}"-->
-<!--      method="post">-->
-
-<!--    <label for="name">Update FullName</label>-->
-<!--    <input type="text" th:field="*{fullName}" id="name" placeholder="fullName">-->
-<!--    <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></span>-->
-
-<!--    <input type="submit" value="Update User">-->
 
 
-<!--</form>-->
+            <div class="container mt-12">
 
-
-            <div class="container">
-                <!-- MODAL ADD FORM -->
                 <form th:object="${employeeDto}" th:action="@{/employees}" th:method="post">
                     <!--                        position-->
                     <!--                        salary-->

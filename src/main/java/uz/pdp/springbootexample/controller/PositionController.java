@@ -1,8 +1,25 @@
 package uz.pdp.springbootexample.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-
+@RequestMapping("/position")
 public class PositionController {
+
+
+
+    @GetMapping("/info/(id)")
+    public  String positionByIDInfo (@PathVariable("id") Integer id , Model model){
+
+            return " keyinroq ochaman html ";
+    }
+
+
+
+
 }

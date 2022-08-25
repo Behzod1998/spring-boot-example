@@ -51,25 +51,22 @@ public class EmployeController {
 
     @GetMapping()
     public String getAllEmployees(@RequestParam(defaultValue = "1") Integer page, Model model) {
-
         Page<EmployeeListProjection>   allEmployees  = employeeService.getAllEmployees(page);
-
-
         model.addAttribute("currentPage", page);
         model.addAttribute("employeeList", allEmployees);
-
         return "employee";
 
     }
 
+    @GetMapping("/info/{id}")
+   public String eployeeAllInfoById(@PathVariable("id") Integer id, Model model){
+        model.addAttribute("employee", "employee olip o'rniga keyinroq  beramaman");
+        return "employee-info";
+   }
 
 
-    @GetMapping("/employee-form")
-    public  String getFormEmployee(EmployeeDto employeeDto){
-
-        return "employee-form";
-
-    }
+    @GetMapping("/get-form")
+    public  String getFormEmployee(EmployeeDto employeeDto){return "employee-form";}
 
 
     @GetMapping("/employee-update/{id}")
