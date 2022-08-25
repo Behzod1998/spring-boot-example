@@ -9,7 +9,6 @@ import uz.pdp.springbootexample.projection.EmployeeListProjection;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
-
     @Query(value = "select  e.id  ,\n" +
             "        e.full_name as fullName,\n" +
             "        p.id as positionId,\n" +

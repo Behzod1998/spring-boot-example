@@ -9,7 +9,8 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">-->
+    <link th:rel="stylesheet" th:href="@{/styles.css}"/>
 
     <!--    BOOTSTRAP SCRIPTS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
@@ -22,18 +23,26 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"
             integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK"
             crossorigin="anonymous"></script>
+    <style>
+        #img-style {
+            width: 80px;
+            height: 80px;
+            border-radius: 80%;
 
-    <link th:rel="stylesheet" th:href="@{/styles.css}"/>
+        }
+    </style>
+
 </head>
 <body>
 <div class="container">
 
-    <a class="btn btn-primary"  href="/employee-form" > + Add New Employee </a>
+    <a class="btn btn-primary" href="/employees/get-form"> + Add New Employee </a>
 
 
     <table class="table table-dark mt-4">
         <thead>
         <tr>
+            <th scope="col">Image</th>
             <th scope="col">Full Name</th>
             <th scope="col">Position</th>
             <th scope="col">Salary</th>
@@ -42,99 +51,51 @@
         </thead>
         <tbody>
 
-        <tr th:each="employee:${employeeList}">
-
-            <td th:text="${employee.fullName}"></td>
-            <td th:text="${employee.position.name}"></td>
-            <td th:text="${employee.salary}"></td>
-<!--            <td>-->
-<!--                <button class="btn btn-warning">Edit</button>-->
-<!--                <button class="btn btn-danger">Delete</button>-->
-
-<!--            </td>-->
+        <tr th:each="employee:${employeeList.content}">
 
             <td>
+                <img
+                        th:src="@{'/attachments/download/'+${employee.profileImageId}}"
+                        id="img-style"
+                        alt="Bu yerda rasm bor"></td>
 
-                <a class="btn btn-warning" th:href="@{employee-update/{id}(id=${employee.id})}">Edit</a>
-                <a   class="btn btn-danger" th:href="@{employee-delete/{id}(id=${employee.id})}">Delete</a>
+            <td><a th:href="@{'/employees/info/' +${employee.id}}" th:text="${employee.fullName}"></a></td>
+            <td><a th:href="@{'/position/info/' +${positionId}}" th:text="${employee.positionName}"></a></td>
+            <td th:text="${employee.salary}"></td>
+
+            <td>
+                <a class="btn btn-warning" th:href="@{'/employees/employee-update/' +${employee.id}}">Edit</a>
+                <a class="btn btn-danger" th:href="@{'/employees/employee-delete/'  +${employee.id}}">Delete</a>
 
             </td>
-
         </tr>
-
         </tbody>
 
     </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a
+                        th:href="@{'/employees?page='+${currentPage - 1}}"
+                        class="page-link"
+                        th:classappend="${currentPage == 1} ? disabled : ''"
+                >Previous</a>
+            </li>
 
-    <div th:if="${bookPage.totalPages > 0}" class="pagination"
-         th:each="pageNumber : ${pageNumbers}">
-        <a th:href="@{/listBooks(size=${bookPage.size}, page=${pageNumber})}"
-           th:text=${pageNumber}
-           th:class="${pageNumber==bookPage.number + 1} ? active"></a>
-    </div>
+            <li th:each="pageNum : ${#numbers.sequence(1, employeeList.totalPages)}"
+                class="page-item">
+                <a th:text="${pageNum}" class="page-link" th:href="@{'/employees?page='+ ${pageNum}}"></a>
+            </li>
+            <li class="page-item" >
+                 <a
+                th:href="@{'/employees?page='+${currentPage + 1}}"
+                class="page-link"
+                th:classappend="${currentPage == employeeList.totalPages} ? disabled : ''"
+        >Next</a>
 
-
-
-    <!-- Modal -->
-<!--    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-<!--        <div class="modal-dialog">-->
-<!--            <div class="modal-content">-->
-<!--                <div class="modal-header">-->
-<!--                    <h5 class="modal-title" id="exampleModalLabel">Add New Student</h5>-->
-<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--                </div>-->
-<!--                <div class="modal-body">-->
-<!--                    &lt;!&ndash; MODAL ADD FORM &ndash;&gt;-->
-<!--                    <form th:object="${employee}" th:action="@{/employees}" th:method="post">-->
-<!--                        &lt;!&ndash;                        position&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        salary&ndash;&gt;-->
-<!--                        <div class="mb-3">-->
-<!--                            <label for="exampleInputFullName1" class="form-label">Full Name</label>-->
-<!--                            <input-->
-<!--                                    type="text"-->
-<!--                                    class="form-control"-->
-<!--                                    id="exampleInputFullName1"-->
-<!--                                    name="fullName"-->
-<!--                            >-->
-<!--                        </div>-->
-<!--                        <div class="mb-3">-->
-<!--                            <label for="exampleInputPosition1" class="form-label">Position</label>-->
-
-<!--                            <select-->
-<!--                                    name="positionId"-->
-<!--                                    id="exampleInputPosition1"-->
-<!--                                    class="form-select"-->
-<!--                                    aria-label="Default select example">-->
-<!--                                <option selected>Select position:</option>-->
-<!--                                <option-->
-<!--                                        th:each="position:${positionList}"-->
-<!--                                        th:value="${position.id}"-->
-<!--                                        th:text="${position.name}"-->
-<!--                                ></option>-->
-
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                        <div class="mb-3">-->
-<!--                            <label for="exampleInputSalary1" class="form-label">Salary</label>-->
-<!--                            <input-->
-<!--                                    type="number"-->
-<!--                                    min="0"-->
-<!--                                    max="10000"-->
-<!--                                    class="form-control"-->
-<!--                                    id="exampleInputSalary1"-->
-<!--                                    name="salary"-->
-<!--                            >-->
-<!--                        </div>-->
-
-<!--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
-<!--                        <button type="reset" class="btn btn-info">Reset</button>-->
-<!--                        <button type="submit" class="btn btn-primary">Save</button>-->
-<!--                    </form>-->
-<!--                </div>-->
-
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+            </li>
+        </ul>
+    </nav>
 
 </div>
 </body>
