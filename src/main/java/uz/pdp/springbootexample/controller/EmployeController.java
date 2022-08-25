@@ -1,6 +1,8 @@
 package uz.pdp.springbootexample.controller;
 
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.springbootexample.entity.Employee;
 import uz.pdp.springbootexample.entity.EmployeeDto;
 import uz.pdp.springbootexample.entity.Position;
+import uz.pdp.springbootexample.projection.EmployeeListProjection;
+import uz.pdp.springbootexample.repository.EmployeeRepository;
 import uz.pdp.springbootexample.service.EmployeeService;
 import uz.pdp.springbootexample.service.PositionService;
 
@@ -15,27 +19,29 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-
+@RequestMapping("/employees")
 public class EmployeController {
+
+
+      @Value("please wake up")
+      String propVal;
 
      private final PositionService positionService;
      private final EmployeeService employeeService;
 
-    public EmployeController(PositionService positionService, EmployeeService employeeService) {
+     private  final EmployeeRepository employeeRepository;
+
+    public EmployeController(PositionService positionService, EmployeeService employeeService, EmployeeRepository employeeRepository) {
         this.positionService = positionService;
         this.employeeService = employeeService;
+        this.employeeRepository = employeeRepository;
     }
 
 
-    @ModelAttribute(name = "employee")
-    public Employee getEmployee() {
-        return new Employee();
+    @ModelAttribute(name = "employeeDto")
+    public EmployeeDto getEmployeeDto() {
+        return new EmployeeDto();
     }
-
-//    @ModelAttribute(name = "employeeList")
-//    public List<Employee> getEmployeeList() {
-//        return employeeService.getAllEmployees();
-//    }
 
     @ModelAttribute(name = "positionList")
     public List<Position> getPositionList() {
@@ -43,10 +49,14 @@ public class EmployeController {
     }
 
 
-    @GetMapping("/employees")
-    public String getAllEmployees(@RequestParam("page") Integer page, Model model) {
+    @GetMapping()
+    public String getAllEmployees(@RequestParam(defaultValue = "1") Integer page, Model model) {
 
-        model.addAttribute("employeeList",employeeService.getAllEmployees(page));
+        Page<EmployeeListProjection>   allEmployees  = employeeService.getAllEmployees(page);
+
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("employeeList", allEmployees);
 
         return "employee";
 

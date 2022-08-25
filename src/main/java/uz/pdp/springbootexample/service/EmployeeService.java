@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.pdp.springbootexample.entity.*;
+import uz.pdp.springbootexample.projection.EmployeeListProjection;
 import uz.pdp.springbootexample.repository.EmployeeRepository;
 import uz.pdp.springbootexample.repository.PositionRepository;
 
@@ -46,12 +47,17 @@ public class EmployeeService {
 
     }
 
-    public List<Employee> getAllEmployees(Integer page) {
-        Pageable pageable = PageRequest.of(page,2);
-        Page<Employee> all = employeeRepository.findAll(pageable);
+    public Page<EmployeeListProjection> getAllEmployees(Integer page) {
+        if (page < 1) {
+            throw  new IllegalStateException("Bad req");
+
+        }
+
+        Pageable pageable = PageRequest.of(page-1,5, Sort.Direction.DESC,"updated_at");
+        Page<EmployeeListProjection> all = employeeRepository.getAllEmployees(pageable);
 
 
-        return all.getContent();
+        return all;
     }
 
 
