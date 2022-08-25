@@ -28,7 +28,6 @@
             width: 80px;
             height: 80px;
             border-radius: 80%;
-
         }
     </style>
 
@@ -54,10 +53,21 @@
         <tr th:each="employee:${employeeList.content}">
 
             <td>
+<!--                <img-->
+<!--                        th:src="@{'/attachments/download/'+${employee.profileImageId}}"-->
+<!--                        id="img-style"-->
+<!--                        alt="Bu yerda rasm bor"></td>-->
+
+
                 <img
+
                         th:src="@{'/attachments/download/'+${employee.profileImageId}}"
                         id="img-style"
-                        alt="Bu yerda rasm bor"></td>
+                        alt=""></td>
+
+
+
+
 
             <td><a th:href="@{'/employees/info/' +${employee.id}}" th:text="${employee.fullName}"></a></td>
             <td><a th:href="@{'/position/info/' +${positionId}}" th:text="${employee.positionName}"></a></td>
