@@ -2,4 +2,16 @@
 
     padding: 20px;
 
+
+
+}
+
+
+.form-control{
+
+    background-color: red;
+
+}
+body{
+    text-decoration-color: darkred;
 }

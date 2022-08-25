@@ -65,22 +65,43 @@
     </div>
     <div class="mb-3">
         <label for="exampleInputPosition1" class="form-label">Position</label>
-       <input type="hidden"  th:field="*{positionId}"  name="positionId">
+<!--       <input type="hidden"  th:field="*{position.id}"  name="positionId">-->
 
 
-        <select
-                name="positionId"
-                id="exampleInputPosition1"
-                class="form-select"
-                aria-label="Default select example">
-            <option selected>Select position:</option>
-            <option
-                    th:each="position:${positionList}"
-                    th:value="${position.id}"
-                    th:text="${position.name}"
-            ></option>
+
+        <select  th:field="*{positionId}"
+                 id="exampleInputPosition1"
+
+        >
+
+        <option value="">Select position:</option>
+        <option
+                th:each="position:${positionList}"
+                th:value="${position.id}"
+                th:text="${position.name}"
+        ></option>
 
         </select>
+
+
+
+
+
+<!--        <select-->
+<!--                required-->
+<!--                th:field="*{}"-->
+<!--                name="positionId"-->
+<!--                id="exampleInputPosition1"-->
+<!--                class="form-select"-->
+<!--                aria-label="Default select example">-->
+<!--            <option selected  th:field="*{position}"></option>-->
+<!--            <option-->
+<!--                    th:each="position:${positionList}"-->
+<!--                    th:value="${position.id}"-->
+<!--                    th:text="${position.name}"-->
+<!--            ></option>-->
+
+<!--        </select>-->
     </div>
     <div class="mb-3">
         <label for="exampleInputSalary1" class="form-label"> Update Salary</label>

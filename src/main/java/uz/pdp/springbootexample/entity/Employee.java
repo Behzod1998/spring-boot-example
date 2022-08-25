@@ -22,7 +22,7 @@ public class Employee {
 
     private  String fullName;
 
-     @ManyToOne
+     @ManyToOne(cascade = CascadeType.PERSIST)
     private  Position position;
 
      private Double salary;
