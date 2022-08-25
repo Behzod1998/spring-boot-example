@@ -32,10 +32,10 @@ public class EmployeController {
         return new Employee();
     }
 
-    @ModelAttribute(name = "employeeList")
-    public List<Employee> getEmployeeList() {
-        return employeeService.getAllEmployees();
-    }
+//    @ModelAttribute(name = "employeeList")
+//    public List<Employee> getEmployeeList() {
+//        return employeeService.getAllEmployees();
+//    }
 
     @ModelAttribute(name = "positionList")
     public List<Position> getPositionList() {
@@ -44,26 +44,77 @@ public class EmployeController {
 
 
     @GetMapping("/employees")
-    public String getAllEmployees() {  return "employee"; }
+    public String getAllEmployees(@RequestParam("page") Integer page, Model model) {
 
+        model.addAttribute("employeeList",employeeService.getAllEmployees(page));
 
-    @PostMapping("/employees")
-    public String saveEmployee(@Valid EmployeeDto employeeDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getAllErrors());
-        }
-        employeeService.saveEmployee(employeeDto);
         return "employee";
+
+    }
+
+
+
+    @GetMapping("/employee-form")
+    public  String getFormEmployee(EmployeeDto employeeDto){
+
+        return "employee-form";
+
     }
 
 
     @GetMapping("/employee-update/{id}")
     public String updateUserForm(@PathVariable("id") Integer id, Model model){
-        Employee employee = employeeService.findById(id);
+        Employee employe = employeeService.findById(id);
+        EmployeeDto employee=new EmployeeDto(
+                employe.getId(),employe.getFullName(),employe.getPosition().getId(),employe.getSalary());
         model.addAttribute("employee", employee);
+
         model.addAttribute("positionList",positionService.getAllPositions());
         return "employee-update";
+
     }
+
+    @GetMapping("/employee-delete/{id}")
+
+    public String deleteEmploye(@PathVariable("id") Integer id , Model model){
+
+
+        Employee employee = employeeService.findById(id);
+
+        employeeService.deleteEmploye(employee);
+
+        return "redirect:/employees";
+
+    }
+
+
+    /**  ============== Post mapping lar boshi ===================*/
+
+    @PostMapping("/employees")
+    public String saveEmployee(@Valid EmployeeDto employeeDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "employee-form";
+        }
+
+        employeeService.saveEmployee(employeeDto);
+
+//        model.addAttribute("employeeList",employeeService.getAllEmployees());
+        return "employee";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @PostMapping("/employee-update/{id}")
     public String updateEmployee(@Valid EmployeeDto employeeDto, BindingResult bindingResult) {
@@ -74,14 +125,6 @@ public class EmployeController {
         employeeService.updateEmployee(employeeDto);
         return "redirect:/employees";
     }
-
-
-
-
-
-
-
-
 
 
 }

@@ -1,9 +1,11 @@
 package uz.pdp.springbootexample.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import uz.pdp.springbootexample.entity.Employee;
-import uz.pdp.springbootexample.entity.EmployeeDto;
-import uz.pdp.springbootexample.entity.Position;
+import uz.pdp.springbootexample.entity.*;
 import uz.pdp.springbootexample.repository.EmployeeRepository;
 import uz.pdp.springbootexample.repository.PositionRepository;
 
@@ -44,9 +46,14 @@ public class EmployeeService {
 
     }
 
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+    public List<Employee> getAllEmployees(Integer page) {
+        Pageable pageable = PageRequest.of(page,2);
+        Page<Employee> all = employeeRepository.findAll(pageable);
+
+
+        return all.getContent();
     }
+
 
     public Employee findById(Integer id){ return employeeRepository.getOne(id);
     }
@@ -77,4 +84,39 @@ public class EmployeeService {
 
 
     }
+
+    public void deleteEmploye(Employee employee) {
+
+        employeeRepository.delete(employee);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
