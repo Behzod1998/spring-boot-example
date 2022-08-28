@@ -6,8 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.pdp.springbootexample.entity.*;
-import uz.pdp.springbootexample.projection.EmployeeListProjection;
-import uz.pdp.springbootexample.repository.EmployeeRepository;
+import uz.pdp.springbootexample.projection.UserListProjection;
+import uz.pdp.springbootexample.repository.UserRepository;
 import uz.pdp.springbootexample.repository.PositionRepository;
 
 import java.util.List;
@@ -15,19 +15,19 @@ import java.util.Optional;
 
 @Service
 
-public class EmployeeService {
+public class UserService {
 
-    final EmployeeRepository employeeRepository;
+    final UserRepository UserRepository;
     final PositionRepository positionRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository, PositionRepository positionRepository) {
-        this.employeeRepository = employeeRepository;
+    public UserService(UserRepository UserRepository, PositionRepository positionRepository) {
+        this.UserRepository = UserRepository;
         this.positionRepository = positionRepository;
     }
 
-    public void saveEmployee(EmployeeDto employeeDto) {
+    public void saveUser(UserDto UserDto) {
 
-        Integer positionId = employeeDto.getPositionId();
+        Integer positionId = UserDto.getPositionId();
         Optional<Position> optionalPosition = positionRepository.findById(positionId);
         if (optionalPosition.isEmpty()) {
 
@@ -36,39 +36,39 @@ public class EmployeeService {
         }
 
 
-        Employee employee = Employee
+        User User = User
                 .builder()
-                .fullName(employeeDto.getFullName())
+                .fullName(UserDto.getFullName())
                 .position(optionalPosition.get())
-                .salary(employeeDto.getSalary())
+                .salary(UserDto.getSalary())
                 .build();
 
-        employeeRepository.save(employee);
+        UserRepository.save(User);
 
     }
 
-    public Page<EmployeeListProjection> getAllEmployees(Integer page) {
+    public Page<UserListProjection> getAllUsers(Integer page) {
         if (page < 1) {
             throw  new IllegalStateException("Bad req");
 
         }
 
         Pageable pageable = PageRequest.of(page-1,5, Sort.Direction.DESC,"updated_at");
-        Page<EmployeeListProjection> all = employeeRepository.getAllEmployees(pageable);
+        Page<UserListProjection> all = UserRepository.getAllUsers(pageable);
 
 
         return all;
     }
 
 
-    public Employee findById(Integer id){ return employeeRepository.getOne(id);
+    public User findById(Integer id){ return UserRepository.getOne(id);
     }
 
 
-    public void updateEmployee(EmployeeDto employeeDto) {
+    public void updateUser(UserDto UserDto) {
 
 
-        Integer positionId = employeeDto.getPositionId();
+        Integer positionId = UserDto.getPositionId();
         Optional<Position> optionalPosition = positionRepository.findById(positionId);
         if (optionalPosition.isEmpty()) {
 
@@ -78,22 +78,22 @@ public class EmployeeService {
         }
 
 
-        Employee employee = Employee
+        User User = User
                 .builder()
-                .id(employeeDto.getId())
-                .fullName(employeeDto.getFullName())
+                .id(UserDto.getId())
+                .fullName(UserDto.getFullName())
                 .position(optionalPosition.get())
-                .salary(employeeDto.getSalary())
+                .salary(UserDto.getSalary())
                 .build();
 
-        employeeRepository.save(employee);
+        UserRepository.save(User);
 
 
     }
 
-    public void deleteEmploye(Employee employee) {
+    public void deleteEmploye(User User) {
 
-        employeeRepository.delete(employee);
+        UserRepository.delete(User);
 
     }
 
