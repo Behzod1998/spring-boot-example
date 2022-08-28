@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Data
 @Builder
-public class EmployeeDto {
+public class UserDto {
 
 
     private Integer id;

@@ -1,0 +1,166 @@
+
+/*====== Core style  =====*/
+
+body{
+    font-family: sans-serif;
+}
+
+.container {
+    width: 1140px;
+    margin: 0 auto;
+}
+
+.to-uppercase{
+    text-transform: uppercase;
+}
+
+.clearfix{
+    clear: both;
+}
+
+
+/* ==== Main header style ==== */
+
+
+.main-header__brand {
+
+    display: inline-block;
+    vertical-align: middle;
+
+}
+
+
+.main-header__brand img{
+    width: 64px;
+
+}
+.main-navigation {
+
+    display: inline-block;
+    vertical-align: middle;
+
+
+}
+
+.main-navigation__item {
+    display: inline-block;
+    padding: 10px;
+}
+
+.main-navigation__item a {
+
+    color:  blue;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 500;
+
+}
+
+.main-navigation__item a:hover {
+    color: darksalmon;
+}
+
+.main-navigation__item.active a{
+    color:darksalmon ;
+}
+
+
+/*====== Main section  =====*/
+
+.main-section{
+
+    padding: 100px 30px;
+
+}
+
+.main-section > div {
+    width: 50%;
+    float:left;
+}
+
+.main-section__image {
+
+    text-align: right;
+
+}
+
+.main-section__welcome{
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    color: #797979;
+}
+
+.main-section__introduction{
+    margin-top: 20px;
+    font-size: 60px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #05364E;
+}
+
+.main-section__position{
+
+    color: #05364E;
+    font-size: 24px;
+    font-weight: 300;
+    margin-bottom: 20px;
+
+
+}
+
+.main-section__action{
+    margin-top: 30px;
+    border: none;
+    background-color: #1c44e4;
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 20px 40px;
+    cursor: pointer;
+    border-radius: 5px;
+
+}
+
+.main-section__image img {
+
+
+    width: 500px ;
+    height: 500px;
+    border-radius: 60%;
+
+}
+
+
+
+/*-- Statistics section -- */
+
+.statistics{
+    padding: 100px;
+
+}
+
+.statistics__item{
+    width: 150px;
+    display: inline-block;
+    background-color: #F8FAFF;
+    text-align: center;
+    padding: 5px 10px;
+    margin-right: 20px;
+
+
+}
+
+.statistics__number{
+    font-size: 27px;
+    margin-bottom: 5px;
+    color: #1c44e4 ;
+}
+
+.statistics__title{
+    font-size: 16px;
+    color: #797979;
+    font-weight: 300;
+}

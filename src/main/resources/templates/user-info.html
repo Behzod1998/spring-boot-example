@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Info</title>
+  <link rel="stylesheet" type="text/css" media="all" href="../static/css/info.css.css" th:href="@{/css/info.css}" />
+
+
+</head>
+<body>
+
+
+<!-- Main section  -->
+
+<div class="container"  >
+  <section id="main-section" class="main-section">
+    <div class="main-section__info">
+
+
+      <h4 class="main-section__welcome to-uppercase"></h4>
+      <h3 class="main-section__introduction to-uppercase"  th:text="${User.fullName}"  ></h3>
+      <h3 class="main-section__position to-uppercase" th:text="${User.position.name}"></h3>
+      <button type="button" class="main-section__action to-uppercase"  onclick="location.href='http://localhost:8080/Users'">
+        Bosh menyu
+      </button>
+    </div>
+    <div class="main-section__image">
+      <img th:src="@{'/attachments/download/'+${1}}" alt="Mening rasmim">
+    </div>
+  </section>
+  <div class="clearfix"></div>
+</div>
+
+<!-- /Main section -->
+
+</body>
+</html>

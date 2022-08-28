@@ -1,6 +1,6 @@
 package uz.pdp.springbootexample.projection;
 
-public interface EmployeeListProjection {
+public interface UserListProjection {
 
     Integer getId();
     String getFullName();
