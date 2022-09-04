@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/Users")
+@RequestMapping("/users")
 public class UserController {
 
 
@@ -27,29 +27,29 @@ public class UserController {
       String propVal;
 
      private final PositionService positionService;
-     private final UserService UserService;
+     private final UserService userService;
 
      private  final UserRepository UserRepository;
 
-    public UserController(PositionService positionService, UserService UserService, UserRepository UserRepository) {
+    public UserController(PositionService positionService, UserService userService, UserRepository UserRepository) {
         this.positionService = positionService;
-        this.UserService = UserService;
+        this.userService = userService;
         this.UserRepository = UserRepository;
     }
 
     @GetMapping("/info/{id}")
     public String eployeeAllInfoById(@PathVariable("id") Integer id, Model model){
-        User user = UserService.findById(id);
-        UserDto User=new UserDto(
+        User user = userService.findById(id);
+        UserDto userDto=new UserDto(
                 user.getId(),user.getFullName(),user.getPosition().getId(),user.getSalary());
-        model.addAttribute("User", user);
+        model.addAttribute("user", userDto);
 
-        return "User-info";
+        return "user-info";
     }
 
 
 
-    @ModelAttribute(name = "UserDto")
+    @ModelAttribute(name = "userDto")
     public UserDto getUserDto() {
         return new UserDto();
     }
@@ -62,82 +62,81 @@ public class UserController {
 
     @GetMapping()
     public String getAllUsers(@RequestParam(defaultValue = "1") Integer page, Model model) {
-        Page<UserListProjection>   allUsers  = UserService.getAllUsers(page);
+        Page<UserListProjection>   allUsers  = userService.getAllUsers(page);
         model.addAttribute("currentPage", page);
-        model.addAttribute("UserList", allUsers);
-        return "User";
+        model.addAttribute("userList", allUsers);
+        return "user";
 
     }
 
 
 
     @GetMapping("/get-form")
-    public  String getFormUser(UserDto UserDto){return "User-form";}
+    public  String getFormUser(UserDto UserDto){return "user-form";}
 
 
-    @GetMapping("/User-update/{id}")
+    @GetMapping("/user-update/{id}")
     public String updateUserForm(@PathVariable("id") Integer id, Model model){
-        User user = UserService.findById(id);
-        UserDto User=new UserDto(
+        User user = userService.findById(id);
+        UserDto userDto=new UserDto(
                 user.getId(),user.getFullName(),user.getPosition().getId(),user.getSalary());
-        model.addAttribute("User", User);
+        model.addAttribute("user", userDto);
 
         model.addAttribute("positionList",positionService.getAllPositions());
-        return "User-update";
+        return "user-update";
 
     }
 
-    @GetMapping("/User-delete/{id}")
+    @GetMapping("/user-delete/{id}")
 
     public String deleteUser(@PathVariable("id") Integer id , Model model){
 
 
-        User User = UserService.findById(id);
+        User user = userService.findById(id);
 
-        UserService.deleteUser(User);
+        userService.deleteUser(user);
 
-        return "redirect:/Users";
+        return "redirect:/users";
 
     }
 
 
     /**  ============== Post mapping lar boshi ===================*/
 
-    @PostMapping("/Users")
-    public String saveUser(@Valid UserDto UserDto, BindingResult bindingResult, Model model) {
+    @PostMapping
+    public String saveUser(@Valid UserDto userDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "User-form";
+            return "user-form";
         }
-
-        UserService.saveUser(UserDto);
-
+        userService.saveUser(userDto);
 //        model.addAttribute("UserList",UserService.getAllUsers());
-        return "User";
+        return "user";
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @PostMapping("/User-update/{id}")
+    @PostMapping("/user-update/{id}")
     public String updateUser(@Valid UserDto UserDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getAllErrors());
         }
 
-        UserService.updateUser(UserDto);
-        return "redirect:/Users";
+        userService.updateUser(UserDto);
+        return "redirect:/users";
     }
+
+
+    @PostMapping("/search")
+    public String searchUser(@RequestParam("usersName") String usersName ,Model model) {
+          Integer page = 1;
+        Page<UserListProjection>   searchUser  =   userService.findByUsername(usersName ,page);
+        searchUser = searchUser.getSize()==0?null:searchUser;
+        model.addAttribute("currentPage", page);
+        model.addAttribute("userList", searchUser);
+        return "user";
+    }
+
+
+
 
 
 }

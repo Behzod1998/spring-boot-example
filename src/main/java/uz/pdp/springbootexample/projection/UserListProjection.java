@@ -9,5 +9,6 @@ public interface UserListProjection {
     Double getSalary();
     Integer getProfileImageId();
 
+    String getUsername();
 
 }

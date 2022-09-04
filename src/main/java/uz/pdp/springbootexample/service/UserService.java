@@ -1,5 +1,6 @@
 package uz.pdp.springbootexample.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -7,27 +8,22 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.pdp.springbootexample.entity.*;
 import uz.pdp.springbootexample.projection.UserListProjection;
-import uz.pdp.springbootexample.repository.UserRepository;
 import uz.pdp.springbootexample.repository.PositionRepository;
+import uz.pdp.springbootexample.repository.UserRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
-
+@RequiredArgsConstructor
 public class UserService {
 
-    final UserRepository UserRepository;
+    final UserRepository userRepository;
     final PositionRepository positionRepository;
 
-    public UserService(UserRepository UserRepository, PositionRepository positionRepository) {
-        this.UserRepository = UserRepository;
-        this.positionRepository = positionRepository;
-    }
 
-    public void saveUser(UserDto UserDto) {
+    public void saveUser(UserDto userDto) {
 
-        Integer positionId = UserDto.getPositionId();
+        Integer positionId = userDto.getPositionId();
         Optional<Position> optionalPosition = positionRepository.findById(positionId);
         if (optionalPosition.isEmpty()) {
 
@@ -36,32 +32,31 @@ public class UserService {
         }
 
 
-        User User = User
+        User user = User
                 .builder()
-                .fullName(UserDto.getFullName())
+                .fullName(userDto.getFullName())
                 .position(optionalPosition.get())
-                .salary(UserDto.getSalary())
+                .salary(userDto.getSalary())
                 .build();
 
-        UserRepository.save(User);
+        userRepository.save(user);
 
     }
 
     public Page<UserListProjection> getAllUsers(Integer page) {
         if (page < 1) {
             throw  new IllegalStateException("Bad req");
-
         }
 
-        Pageable pageable = PageRequest.of(page-1,5, Sort.Direction.DESC,"updated_at");
-        Page<UserListProjection> all = UserRepository.getAllUsers(pageable);
+        Pageable pageable = PageRequest.of(page-1,5, Sort.Direction.DESC,"update_at");
+        Page<UserListProjection> all = userRepository.getAllUsers(pageable);
 
 
         return all;
     }
 
 
-    public User findById(Integer id){ return UserRepository.getOne(id);
+    public User findById(Integer id){ return userRepository.getOne(id);
     }
 
 
@@ -78,7 +73,7 @@ public class UserService {
         }
 
 
-        User User = User
+        User user = User
                 .builder()
                 .id(UserDto.getId())
                 .fullName(UserDto.getFullName())
@@ -86,43 +81,29 @@ public class UserService {
                 .salary(UserDto.getSalary())
                 .build();
 
-        UserRepository.save(User);
+        userRepository.save(user);
 
 
     }
 
-    public void deleteEmploye(User User) {
+    public void deleteUser(User User) {
 
-        UserRepository.delete(User);
+        userRepository.delete(User);
 
     }
 
 
+    public Page<UserListProjection> findByUsername(String userName , Integer page) {
+        if (page < 1) {
+            throw  new IllegalStateException("Bad req");
+        }
 
+        if (userName.equals(null) || userName.trim().isEmpty()) {
+            return  getAllUsers(page);
+        }
+        Pageable pageable = PageRequest.of(page-1,5);
+        Page<UserListProjection> all = userRepository.findUsersByUsernameContains(pageable ,userName);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return all;
+    }
 }

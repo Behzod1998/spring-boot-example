@@ -15,9 +15,34 @@
 body{
     text-decoration-color: darkred;
 }
-#img-style{
-    width: 500px ;
-    height: 500px;
-    border-radius: 60%;
+#img-style {
+    width: 80px;
+    height: 80px;
+    border-radius: 80%;
+}
+.main-header__brand {
+    text-align: center;
+    vertical-align: middle;
+    border-color: navy;
+    border:2px;
+    border-style: solid;
+}
 
+a{
+    text-decoration: none;
+
+}
+
+.table a:hover {
+    color: palegoldenrod;
+}
+.form-control{
+    background-color: white;
+    color: wheat;
+    width: 29%;
+    display: inline-block;
+
+}
+#btn{
+    background-color: blue;
 }

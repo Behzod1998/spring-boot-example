@@ -45,6 +45,17 @@
                 <!--                        position-->
                 <!--                        salary-->
                 <div class="mb-3">
+                    <label for="exampleInputUsername" class="form-label">Username</label>
+                    <input
+
+                            type="text"
+                            class="form-control"
+                            id="exampleInputUsername"
+                            name="username"
+                    >
+                    <li th:each="err : ${#fields.errors('username')}" th:text="${err}" class="error"/>
+                </div>
+                <div class="mb-3">
                     <label for="exampleInputFullName1" class="form-label">Full Name</label>
                     <input
                             type="text"

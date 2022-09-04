@@ -32,8 +32,8 @@
     <div class="row mt-5">
         <div class="col-md-6 offset-3">
             <form action="#"
-                  th:action="@{/User-update/{id}(id=${User.id})}"
-                  th:object="${User}"
+                  th:action="@{/user-update/{id}(id=${user.id})}"
+                  th:object="${user}"
                   method="post">
                 <div class="mb-3">
                     <label for="exampleInputFullName1" class="form-label">Full Name</label>
